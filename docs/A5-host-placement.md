@@ -1,6 +1,6 @@
 # A5 — Host placement for OneStreamer-4B (WO-038)
 
-Date 2026-10-06 · Read-only analysis, no code run · Status: **GO for (a) at ~1 fps captions; NO-GO for (a) at 4 fps real-time gate; (c) is the 4 fps path.** Numbers marked *est.* are not measured yet; the first B-track hour should replace them.
+Date 2026-10-06 · Read-only analysis, no code run · Status: **(a) phone: NO-GO as host, GO as pre-filter · (b) M3 Air: GO at ~1 fps (Halo's expected rate), NO-GO at 4 fps · (c) GPU host: GO for 4 fps.** Numbers marked *est.* are not measured yet; the first B-track hour should replace them.
 
 ## Facts found (2026-10-06)
 
@@ -8,7 +8,11 @@ Date 2026-10-06 · Read-only analysis, no code run · Status: **GO for (a) at ~1
 - Vision encoder: patch 16, spatial merge 2, temporal patch 2, 24 layers, width 1024 (~0.4 B params).
 - At 640×480: (640/32)·(480/32) = **300 visual tokens per 2-frame temporal group.** 4 fps → 2 groups/s → **~600 visual tokens/s**, plus up to 128 text tokens per update. 1 fps → ~150 visual tokens/s.
 
-## Options
+## Options (rev1 lettering: (a) phone, (b) M3 Air, (c) GPU host)
+
+**(a) Phone-side small VLM: NO-GO for OneStreamer, GO only as a pre-filter.** OneStreamer-4B at Q4 is ~3 GB plus a 0.4 B vision tower; on a phone that means thermal throttling within minutes and no StreamingSession runtime (iOS/Android ports of llama.cpp's multimodal path exist, but not the rolling-window/PHCM loop). A sub-1B VLM on the phone could run a cheap "anything changed?" pre-filter that decides which Halo stills are worth sending to (b) or (c), cutting uplink and battery. *est.*, not measured.
+
+The table below covers the laptop and GPU-host options (its (a)/(b) rows are the Air under llama.cpp and MLX, i.e. rev1 option (b)).
 
 | Option | Fits memory | 4 fps real-time gate | ~1 fps captions | Port effort | Privacy |
 |---|---|---|---|---|---|
@@ -37,3 +41,7 @@ A response is useful within ~1 s of the evidence appearing, so (c) has slack at 
 3. Keep the A1 contract as the seam: the Air (1 fps) and the GPU host (4 fps) are just two `onestreamer` adapter instances with different `source` suffixes.
 
 Effort: (a) or (b) 1-fps prototype ≈ 1–2 days *est.*; (c) bring-up ≈ 0.5 day once a host exists *est.*
+
+## Note on Halo (A6)
+
+Halo delivers ~1 fps stills over BLE (rev1 A6 estimate). At that rate (b) the M3 Air is sufficient on compute, so a fully local Halo → laptop → OneStreamer path is plausible without any GPU spend. B3's 1 fps run will show what timing F1 that costs versus 4 fps.
