@@ -1,0 +1,3 @@
+{"offset_s": 0.0, "kind": "state", "text": "silence", "confidence": 1.0}
+{"offset_s": 4.5, "text": "A red fire truck has entered the frame.", "confidence": 0.82}
+{"offset_s": 12.0, "kind": "summary", "text": "Night scene; one fire truck so far, firefighters beside it.", "confidence": 0.7}

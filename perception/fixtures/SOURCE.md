@@ -1,0 +1,1 @@
+`onestreamer_1m_sample.jsonl`: first 5 metadata records of `Proactive_Interaction/JoyVL/Active_counting/jishu2_en_existing_frames_fps4.jsonl` from [MCG-NJU/OneStreamer-1M](https://huggingface.co/datasets/MCG-NJU/OneStreamer-1M), used as a test fixture only, under the dataset's terms. Text metadata only; no media is redistributed.

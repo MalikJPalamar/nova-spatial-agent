@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/MalikJPalamar/nova-spatial-agent/perception/event.schema.json",
+  "title": "PerceptionEvent",
+  "description": "One text event emitted by a perception adapter into the Tier 3 inbox (WO-038 A1). Text only: no frames, no audio, no embeddings.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["ts", "kind", "text", "confidence", "source"],
+  "properties": {
+    "ts": {"type": "string", "description": "ISO-8601 timestamp with timezone"},
+    "kind": {"enum": ["observe", "summary", "state"]},
+    "text": {"type": "string", "minLength": 1, "maxLength": 2000},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "source": {"type": "string", "pattern": "^[a-z0-9-]+(:[A-Za-z0-9._-]+)?$", "description": "adapter id, optionally :instance"}
+  }
+}
